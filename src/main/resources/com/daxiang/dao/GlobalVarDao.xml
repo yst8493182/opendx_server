@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.daxiang.dao.GlobalVarDao">
+    <resultMap id="ResultMapWithBLOBs" type="com.daxiang.mbg.po.GlobalVar" extends="com.daxiang.mbg.mapper.GlobalVarMapper.ResultMapWithBLOBs"/>
+
+    <select id="selectByEnvironmentId" resultMap="ResultMapWithBLOBs">
+        select * from global_var where JSON_CONTAINS(environment_values->'$[*].environmentId', '${envId}', '$')
+    </select>
+
+    <insert id="insertBatch">
+        insert into global_var (name, type, description,
+        project_id, category_id, creator_uid,
+        create_time, environment_values
+        )
+        values
+        <foreach collection="globalVars" item="item" separator=",">
+            (#{item.name,jdbcType=VARCHAR}, #{item.type,jdbcType=VARCHAR}, #{item.description,jdbcType=VARCHAR},
+            #{item.projectId,jdbcType=INTEGER}, #{item.categoryId,jdbcType=INTEGER}, #{item.creatorUid,jdbcType=INTEGER},
+            #{item.createTime,jdbcType=TIMESTAMP}, #{item.environmentValues,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.EnvironmentValueListTypeHandler}
+            )
+        </foreach>
+    </insert>
+</mapper>

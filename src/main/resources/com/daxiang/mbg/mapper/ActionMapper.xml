@@ -1,0 +1,584 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.daxiang.mbg.mapper.ActionMapper">
+  <resultMap id="BaseResultMap" type="com.daxiang.mbg.po.Action">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="invoke" jdbcType="VARCHAR" property="invoke" />
+    <result column="return_value_type" jdbcType="VARCHAR" property="returnValueType" />
+    <result column="return_value_desc" jdbcType="VARCHAR" property="returnValueDesc" />
+    <result column="creator_uid" jdbcType="INTEGER" property="creatorUid" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="updator_uid" jdbcType="INTEGER" property="updatorUid" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="page_id" jdbcType="INTEGER" property="pageId" />
+    <result column="category_id" jdbcType="INTEGER" property="categoryId" />
+    <result column="project_id" jdbcType="INTEGER" property="projectId" />
+    <result column="state" jdbcType="TINYINT" property="state" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.daxiang.mbg.po.Action">
+    <result column="params" jdbcType="LONGVARCHAR" property="params" typeHandler="com.daxiang.typehandler.ParamListTypeHandler" />
+    <result column="local_vars" jdbcType="LONGVARCHAR" property="localVars" typeHandler="com.daxiang.typehandler.LocalVarListTypeHandler" />
+    <result column="set_up" jdbcType="LONGVARCHAR" property="setUp" typeHandler="com.daxiang.typehandler.StepListTypeHandler" />
+    <result column="steps" jdbcType="LONGVARCHAR" property="steps" typeHandler="com.daxiang.typehandler.StepListTypeHandler" />
+    <result column="tear_down" jdbcType="LONGVARCHAR" property="tearDown" typeHandler="com.daxiang.typehandler.StepListTypeHandler" />
+    <result column="java_imports" jdbcType="LONGVARCHAR" property="javaImports" typeHandler="com.daxiang.typehandler.StringListTypeHandler" />
+    <result column="action_imports" jdbcType="LONGVARCHAR" property="actionImports" typeHandler="com.daxiang.typehandler.IntegerListTypeHandler" />
+    <result column="platforms" jdbcType="LONGVARCHAR" property="platforms" typeHandler="com.daxiang.typehandler.IntegerListTypeHandler" />
+    <result column="depends" jdbcType="LONGVARCHAR" property="depends" typeHandler="com.daxiang.typehandler.IntegerListTypeHandler" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, name, description, type, invoke, return_value_type, return_value_desc, creator_uid, 
+    create_time, updator_uid, update_time, page_id, category_id, project_id, state
+  </sql>
+  <sql id="Blob_Column_List">
+    params, local_vars, set_up, steps, tear_down, java_imports, action_imports, platforms, 
+    depends
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.daxiang.mbg.po.ActionExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from action
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.daxiang.mbg.po.ActionExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from action
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from action
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from action
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.daxiang.mbg.po.ActionExample">
+    delete from action
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.daxiang.mbg.po.Action">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into action (name, description, type, 
+      invoke, return_value_type, return_value_desc, 
+      creator_uid, create_time, updator_uid, 
+      update_time, page_id, category_id, 
+      project_id, state, params, 
+      local_vars, 
+      set_up, 
+      steps, 
+      tear_down, 
+      java_imports, 
+      action_imports, 
+      platforms, 
+      depends
+      )
+    values (#{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, 
+      #{invoke,jdbcType=VARCHAR}, #{returnValueType,jdbcType=VARCHAR}, #{returnValueDesc,jdbcType=VARCHAR}, 
+      #{creatorUid,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updatorUid,jdbcType=INTEGER}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{pageId,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, 
+      #{projectId,jdbcType=INTEGER}, #{state,jdbcType=TINYINT}, #{params,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.ParamListTypeHandler}, 
+      #{localVars,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.LocalVarListTypeHandler}, 
+      #{setUp,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.StepListTypeHandler}, 
+      #{steps,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.StepListTypeHandler}, 
+      #{tearDown,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.StepListTypeHandler}, 
+      #{javaImports,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.StringListTypeHandler}, 
+      #{actionImports,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.IntegerListTypeHandler}, 
+      #{platforms,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.IntegerListTypeHandler}, 
+      #{depends,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.IntegerListTypeHandler}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.daxiang.mbg.po.Action">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into action
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        name,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="invoke != null">
+        invoke,
+      </if>
+      <if test="returnValueType != null">
+        return_value_type,
+      </if>
+      <if test="returnValueDesc != null">
+        return_value_desc,
+      </if>
+      <if test="creatorUid != null">
+        creator_uid,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updatorUid != null">
+        updator_uid,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="pageId != null">
+        page_id,
+      </if>
+      <if test="categoryId != null">
+        category_id,
+      </if>
+      <if test="projectId != null">
+        project_id,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="params != null">
+        params,
+      </if>
+      <if test="localVars != null">
+        local_vars,
+      </if>
+      <if test="setUp != null">
+        set_up,
+      </if>
+      <if test="steps != null">
+        steps,
+      </if>
+      <if test="tearDown != null">
+        tear_down,
+      </if>
+      <if test="javaImports != null">
+        java_imports,
+      </if>
+      <if test="actionImports != null">
+        action_imports,
+      </if>
+      <if test="platforms != null">
+        platforms,
+      </if>
+      <if test="depends != null">
+        depends,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="invoke != null">
+        #{invoke,jdbcType=VARCHAR},
+      </if>
+      <if test="returnValueType != null">
+        #{returnValueType,jdbcType=VARCHAR},
+      </if>
+      <if test="returnValueDesc != null">
+        #{returnValueDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="creatorUid != null">
+        #{creatorUid,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatorUid != null">
+        #{updatorUid,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pageId != null">
+        #{pageId,jdbcType=INTEGER},
+      </if>
+      <if test="categoryId != null">
+        #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=INTEGER},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=TINYINT},
+      </if>
+      <if test="params != null">
+        #{params,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.ParamListTypeHandler},
+      </if>
+      <if test="localVars != null">
+        #{localVars,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.LocalVarListTypeHandler},
+      </if>
+      <if test="setUp != null">
+        #{setUp,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.StepListTypeHandler},
+      </if>
+      <if test="steps != null">
+        #{steps,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.StepListTypeHandler},
+      </if>
+      <if test="tearDown != null">
+        #{tearDown,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.StepListTypeHandler},
+      </if>
+      <if test="javaImports != null">
+        #{javaImports,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.StringListTypeHandler},
+      </if>
+      <if test="actionImports != null">
+        #{actionImports,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.IntegerListTypeHandler},
+      </if>
+      <if test="platforms != null">
+        #{platforms,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.IntegerListTypeHandler},
+      </if>
+      <if test="depends != null">
+        #{depends,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.IntegerListTypeHandler},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.daxiang.mbg.po.ActionExample" resultType="java.lang.Long">
+    select count(*) from action
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update action
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.description != null">
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=TINYINT},
+      </if>
+      <if test="record.invoke != null">
+        invoke = #{record.invoke,jdbcType=VARCHAR},
+      </if>
+      <if test="record.returnValueType != null">
+        return_value_type = #{record.returnValueType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.returnValueDesc != null">
+        return_value_desc = #{record.returnValueDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.creatorUid != null">
+        creator_uid = #{record.creatorUid,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatorUid != null">
+        updator_uid = #{record.updatorUid,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.pageId != null">
+        page_id = #{record.pageId,jdbcType=INTEGER},
+      </if>
+      <if test="record.categoryId != null">
+        category_id = #{record.categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="record.projectId != null">
+        project_id = #{record.projectId,jdbcType=INTEGER},
+      </if>
+      <if test="record.state != null">
+        state = #{record.state,jdbcType=TINYINT},
+      </if>
+      <if test="record.params != null">
+        params = #{record.params,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.ParamListTypeHandler},
+      </if>
+      <if test="record.localVars != null">
+        local_vars = #{record.localVars,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.LocalVarListTypeHandler},
+      </if>
+      <if test="record.setUp != null">
+        set_up = #{record.setUp,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.StepListTypeHandler},
+      </if>
+      <if test="record.steps != null">
+        steps = #{record.steps,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.StepListTypeHandler},
+      </if>
+      <if test="record.tearDown != null">
+        tear_down = #{record.tearDown,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.StepListTypeHandler},
+      </if>
+      <if test="record.javaImports != null">
+        java_imports = #{record.javaImports,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.StringListTypeHandler},
+      </if>
+      <if test="record.actionImports != null">
+        action_imports = #{record.actionImports,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.IntegerListTypeHandler},
+      </if>
+      <if test="record.platforms != null">
+        platforms = #{record.platforms,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.IntegerListTypeHandler},
+      </if>
+      <if test="record.depends != null">
+        depends = #{record.depends,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.IntegerListTypeHandler},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update action
+    set id = #{record.id,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=TINYINT},
+      invoke = #{record.invoke,jdbcType=VARCHAR},
+      return_value_type = #{record.returnValueType,jdbcType=VARCHAR},
+      return_value_desc = #{record.returnValueDesc,jdbcType=VARCHAR},
+      creator_uid = #{record.creatorUid,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      updator_uid = #{record.updatorUid,jdbcType=INTEGER},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      page_id = #{record.pageId,jdbcType=INTEGER},
+      category_id = #{record.categoryId,jdbcType=INTEGER},
+      project_id = #{record.projectId,jdbcType=INTEGER},
+      state = #{record.state,jdbcType=TINYINT},
+      params = #{record.params,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.ParamListTypeHandler},
+      local_vars = #{record.localVars,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.LocalVarListTypeHandler},
+      set_up = #{record.setUp,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.StepListTypeHandler},
+      steps = #{record.steps,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.StepListTypeHandler},
+      tear_down = #{record.tearDown,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.StepListTypeHandler},
+      java_imports = #{record.javaImports,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.StringListTypeHandler},
+      action_imports = #{record.actionImports,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.IntegerListTypeHandler},
+      platforms = #{record.platforms,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.IntegerListTypeHandler},
+      depends = #{record.depends,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.IntegerListTypeHandler}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update action
+    set id = #{record.id,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=TINYINT},
+      invoke = #{record.invoke,jdbcType=VARCHAR},
+      return_value_type = #{record.returnValueType,jdbcType=VARCHAR},
+      return_value_desc = #{record.returnValueDesc,jdbcType=VARCHAR},
+      creator_uid = #{record.creatorUid,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      updator_uid = #{record.updatorUid,jdbcType=INTEGER},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      page_id = #{record.pageId,jdbcType=INTEGER},
+      category_id = #{record.categoryId,jdbcType=INTEGER},
+      project_id = #{record.projectId,jdbcType=INTEGER},
+      state = #{record.state,jdbcType=TINYINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.daxiang.mbg.po.Action">
+    update action
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="invoke != null">
+        invoke = #{invoke,jdbcType=VARCHAR},
+      </if>
+      <if test="returnValueType != null">
+        return_value_type = #{returnValueType,jdbcType=VARCHAR},
+      </if>
+      <if test="returnValueDesc != null">
+        return_value_desc = #{returnValueDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="creatorUid != null">
+        creator_uid = #{creatorUid,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatorUid != null">
+        updator_uid = #{updatorUid,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pageId != null">
+        page_id = #{pageId,jdbcType=INTEGER},
+      </if>
+      <if test="categoryId != null">
+        category_id = #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="projectId != null">
+        project_id = #{projectId,jdbcType=INTEGER},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=TINYINT},
+      </if>
+      <if test="params != null">
+        params = #{params,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.ParamListTypeHandler},
+      </if>
+      <if test="localVars != null">
+        local_vars = #{localVars,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.LocalVarListTypeHandler},
+      </if>
+      <if test="setUp != null">
+        set_up = #{setUp,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.StepListTypeHandler},
+      </if>
+      <if test="steps != null">
+        steps = #{steps,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.StepListTypeHandler},
+      </if>
+      <if test="tearDown != null">
+        tear_down = #{tearDown,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.StepListTypeHandler},
+      </if>
+      <if test="javaImports != null">
+        java_imports = #{javaImports,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.StringListTypeHandler},
+      </if>
+      <if test="actionImports != null">
+        action_imports = #{actionImports,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.IntegerListTypeHandler},
+      </if>
+      <if test="platforms != null">
+        platforms = #{platforms,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.IntegerListTypeHandler},
+      </if>
+      <if test="depends != null">
+        depends = #{depends,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.IntegerListTypeHandler},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.daxiang.mbg.po.Action">
+    update action
+    set name = #{name,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      type = #{type,jdbcType=TINYINT},
+      invoke = #{invoke,jdbcType=VARCHAR},
+      return_value_type = #{returnValueType,jdbcType=VARCHAR},
+      return_value_desc = #{returnValueDesc,jdbcType=VARCHAR},
+      creator_uid = #{creatorUid,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      updator_uid = #{updatorUid,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      page_id = #{pageId,jdbcType=INTEGER},
+      category_id = #{categoryId,jdbcType=INTEGER},
+      project_id = #{projectId,jdbcType=INTEGER},
+      state = #{state,jdbcType=TINYINT},
+      params = #{params,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.ParamListTypeHandler},
+      local_vars = #{localVars,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.LocalVarListTypeHandler},
+      set_up = #{setUp,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.StepListTypeHandler},
+      steps = #{steps,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.StepListTypeHandler},
+      tear_down = #{tearDown,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.StepListTypeHandler},
+      java_imports = #{javaImports,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.StringListTypeHandler},
+      action_imports = #{actionImports,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.IntegerListTypeHandler},
+      platforms = #{platforms,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.IntegerListTypeHandler},
+      depends = #{depends,jdbcType=LONGVARCHAR,typeHandler=com.daxiang.typehandler.IntegerListTypeHandler}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.daxiang.mbg.po.Action">
+    update action
+    set name = #{name,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      type = #{type,jdbcType=TINYINT},
+      invoke = #{invoke,jdbcType=VARCHAR},
+      return_value_type = #{returnValueType,jdbcType=VARCHAR},
+      return_value_desc = #{returnValueDesc,jdbcType=VARCHAR},
+      creator_uid = #{creatorUid,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      updator_uid = #{updatorUid,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      page_id = #{pageId,jdbcType=INTEGER},
+      category_id = #{categoryId,jdbcType=INTEGER},
+      project_id = #{projectId,jdbcType=INTEGER},
+      state = #{state,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
