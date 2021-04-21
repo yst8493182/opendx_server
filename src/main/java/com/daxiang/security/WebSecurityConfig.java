@@ -41,6 +41,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         HttpMethod permitHttpMethod = HttpMethod.OPTIONS;
+        //note by yifeng,这里的url表示可以直接请求不需要token 认证的url
+        //调试时如果要避开token 可以在这里添加url
         String[] permitAntPatterns = new String[]{
                 "/",
                 "/user/login",
@@ -51,7 +53,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/action/resetBasicAction",
                 "/upload/file/*",
                 "/project/list",
-                "/mobile/list",
+                //change by yifeng
+                "/mobile/*",
                 "/agentExtJar/lastUploadTimeList",
                 "/mobile/save",
                 "/browser/save",

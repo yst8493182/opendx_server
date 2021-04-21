@@ -6,6 +6,7 @@ import com.daxiang.model.PagedData;
 import com.daxiang.model.Response;
 import com.daxiang.model.vo.MobileVo;
 import com.daxiang.service.MobileService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ import java.util.List;
 /**
  * Created by jiangyitao.
  */
+@Slf4j
 @RestController
 @RequestMapping("/mobile")
 public class MobileController {
@@ -29,7 +31,7 @@ public class MobileController {
         return Response.success("保存成功");
     }
 
-    @PreAuthorize("hasAuthority('admin')")
+    //@PreAuthorize("hasAuthority('admin')")
     @DeleteMapping("/{mobileId}")
     public Response delete(@PathVariable String mobileId) {
         mobileService.deleteAndClearRelatedRes(mobileId);

@@ -73,7 +73,10 @@ public class MobileService {
 
         }
 
-        fileService.deleteQuietly(mobile.getImgPath());
+        //note by yifeng,这里 会去删logo,可以加判断，如果是 TCL logo则不删除
+        if(!mobile.getImgPath().equals("upload/img/tcl.jpg")) {
+            fileService.deleteQuietly(mobile.getImgPath());
+        }
     }
 
     public PagedData<MobileVo> list(Mobile query, String orderBy, PageRequest pageRequest) {
@@ -177,6 +180,7 @@ public class MobileService {
         MobileExample example = new MobileExample();
         MobileExample.Criteria criteria = example.createCriteria();
 
+        //相当于数据库的查询条件，查询的是在线状态的设备
         criteria.andStatusNotEqualTo(Mobile.OFFLINE_STATUS);
         if (platform != null) {
             criteria.andPlatformEqualTo(platform);

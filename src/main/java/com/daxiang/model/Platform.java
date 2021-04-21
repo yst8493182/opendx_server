@@ -7,4 +7,5 @@ public interface Platform {
     int ANDROID = 1;
     int IOS = 2;
     int PC_WEB = 3;
+    int SERIAL = 4;
 }

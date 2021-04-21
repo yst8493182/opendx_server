@@ -11,6 +11,7 @@ import com.github.pagehelper.Page;
 import com.daxiang.model.PagedData;
 import com.daxiang.model.PageRequest;
 import com.daxiang.model.dto.Testcase;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -28,6 +29,7 @@ import java.util.stream.Stream;
 /**
  * Created by jiangyitao.
  */
+@Slf4j
 @Service
 public class TestTaskService {
 
@@ -64,6 +66,7 @@ public class TestTaskService {
      *
      * @return
      */
+    //note by yifeng,检查测试任务，先拿出需要执行的用例
     @Transactional
     public void commit(Integer testPlanId, Integer commitorUid) {
         if (testPlanId == null || commitorUid == null) {
@@ -116,9 +119,11 @@ public class TestTaskService {
         Project project = projectService.getProjectById(testTask.getProjectId());
 
         // 根据不同用例分发策略，给device分配用例
+        // note by yifeng ,String 是设备，List<Action>是需要执行的用例
         Map<String, List<Action>> deviceTestcasesMap = allocateTestcaseToDevice(testPlan.getDeviceIds(), testcases, testPlan.getRunMode());
 
         Map<String, JSONObject> deviceMap = new HashMap<>();
+        // note by yifeng ,keySet取出map中的所有key,这样方便读取所有对应的value
         Set<String> deviceIds = deviceTestcasesMap.keySet();
         if (project.getPlatform() == Project.PC_WEB_PLATFORM) { // browser
             Map<String, Browser> browserMap = browserService.getBrowserMapByBrowserIds(deviceIds);
