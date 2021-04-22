@@ -105,6 +105,10 @@
     delete from mobile
     where id = #{id,jdbcType=VARCHAR}
   </delete>
+  <delete id="deleteBySerial" parameterType="java.lang.String">
+    delete from mobile
+    where id like #{id,jdbcType=VARCHAR}
+  </delete>
   <delete id="deleteByExample" parameterType="com.daxiang.mbg.po.MobileExample">
     delete from mobile
     <if test="_parameter != null">

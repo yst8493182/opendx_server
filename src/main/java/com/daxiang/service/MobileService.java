@@ -201,6 +201,19 @@ public class MobileService {
         return mobileMapper.selectByExample(example);
     }
 
+    //add by yifeng
+    public void deleteSerialOffline(String agentIp){
+        if (agentIp == null) {
+            throw new ServerException("agentIp不能为空");
+        }
+        agentIp += "-COM%";
+        int deleteCount = mobileMapper.deleteBySerial(agentIp);
+        if (deleteCount != 1) {
+            throw new ServerException("删除失败，请稍后重试");
+        }
+        log.info("success to delete the serial device in " + agentIp);
+    }
+
     public void agentOffline(String agentIp) {
         Mobile mobile = new Mobile();
         mobile.setStatus(Mobile.OFFLINE_STATUS);

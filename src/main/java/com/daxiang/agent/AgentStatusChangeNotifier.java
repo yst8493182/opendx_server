@@ -50,6 +50,8 @@ public class AgentStatusChangeNotifier extends AbstractStatusChangeNotifier {
 
                 if (!StatusInfo.STATUS_UP.equals(status)) {
                     // agent离线，把该agent下device变为离线
+                    // note by yifeng,直接删除离线agent的串口设备
+                    mobileService.deleteSerialOffline(agentUri.getHost());
                     mobileService.agentOffline(agentUri.getHost());
                     browserService.agentOffline(agentUri.getHost());
                 }

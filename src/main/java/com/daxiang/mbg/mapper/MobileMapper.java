@@ -12,6 +12,10 @@ public interface MobileMapper {
 
     int deleteByPrimaryKey(String id);
 
+    //add by yifeng ,删除串口设备
+    //如果agent下线，则删除其下所有串口设备记录
+    int deleteBySerial(String agentIp);
+
     int insert(Mobile record);
 
     int insertSelective(Mobile record);
