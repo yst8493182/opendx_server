@@ -207,10 +207,7 @@ public class MobileService {
             throw new ServerException("agentIp不能为空");
         }
         agentIp += "-COM%";
-        int deleteCount = mobileMapper.deleteBySerial(agentIp);
-        if (deleteCount != 1) {
-            throw new ServerException("删除失败，请稍后重试");
-        }
+        mobileMapper.deleteBySerial(agentIp);
         log.info("success to delete the serial device in " + agentIp);
     }
 
